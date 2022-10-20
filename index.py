@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 import db
 
 app = Flask(__name__)
@@ -19,9 +19,13 @@ def post():
 def contact():
     return render_template('contact.html')
 
-@app.route("/postContact")
+@app.route("/postContact", methods=['POST'])
 def postContact():
-    db.db.posts.insert_one({"name": "John"})
-    return "Connected to the data base!"
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        message = request.form.get('message')
+        db.db.queries.insert_one({"name": name, "email": email, "phone": phone, "message": message})
 
 app.run(debug=True)
