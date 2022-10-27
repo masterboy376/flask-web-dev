@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    blogs = db.db.posts.find()
+    blogs = db.db.posts.find().limit(db.params["no_of_posts"])
     print(date.today())
     return render_template('index.html', params=db.params, blogs=blogs)
     
